@@ -21,6 +21,18 @@
 #define PWD     PIN_D2  //6
 #define DRDY    PIN_D6  //5
 
+#define USB_IDLE    0
+#define USB_SENDING 1
+#define USB_READING 2
+#define USB_HEADER_SENDING 4
+#define USB_DATA_IN_INPUT_BUFFER    3
+#define USB_MAX_TRANSFER    63
+#define USB_INPUT_BUFFER_SIZE   USB_MAX_TRANSFER
+#define USB_MESSAGE_HEADER_SIZE 4
+#define BUFFER_SIZE 8192
+#define FILTER_ORDER 497
+#define ASM_FILTER_ORDER #FILTER_ORDER
+
 #pin_select SCK1OUT=SCK
 #pin_select SDI1=SDI
 #pin_select SDO1=SDO
