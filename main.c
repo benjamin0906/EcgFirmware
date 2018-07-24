@@ -726,21 +726,18 @@ uint32 FirWeighter(uint32 RawData)
     CLR B
     
     /* Set the elements into the W3 and W4 and step away the W8 and W10 pointers. */
-    MOV [W8], W4
-    SUB W8, #2,W8
-    MOV [W10], W5
-    SUB W10, #2,W10
+    MOV [W8--], W4
+    MOV [W10--], W5
 
     /* This is a cycle that loop till the first element. In this cycle the buffer will be multiplied by the weight
      * the high word in the accumulator A and the low word in the accumulator B. During this the elements of the  
      * buffer will be shifted away. */
+    MOV #4,W3
     loop:
         MAC W4*W5, A, [W8]-=2, W4
-        ADD W8, #4,W3
-        MOV [W8],[W3]
+        MOV [W8], [W8+W3]
         MAC W4*W5, B, [W8]-=2, W4, [W10]-=2, W5
-        ADD W8, #4,W3
-        MOV [W8],[W3]
+        MOV [W8], [W8+W3]
         SUB #4  , W1
         BRA NZ,loop
         
@@ -759,15 +756,8 @@ uint32 FirWeighter(uint32 RawData)
             
     /* The accumulator read out and save into the RawData variable. */
     SAC A,#0,[++W3]
-    MOV #0x00ff, W0
-    AND RawData+2
-    //MOV #0x1100, W0
-    //IOR RawData+2
     SFTAC A, #-16
     SAC A,#0,[--W3]
-    
-    //MOV [W8++], W4
-    //MOV [W8--],W5
     
     /* Load the working registers back from the stack. */
     POP W10
@@ -777,7 +767,7 @@ uint32 FirWeighter(uint32 RawData)
     POP W3
     POP W1
 #endasm
-    RawData=(ret-RawData);
+    RawData=0x11000000|(0x00ffffff&(ret-RawData));
     return RawData;
 }
 uint32 globalvar=0;
