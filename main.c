@@ -733,13 +733,14 @@ uint32 FirWeighter(uint32 RawData)
      * the high word in the accumulator A and the low word in the accumulator B. During this the elements of the  
      * buffer will be shifted away. */
     MOV #4,W3
-    loop:
+    LSR W1,#2,W1
+    DEC W1,W1
+    DO W1,loop
         MAC W4*W5, A, [W8]-=2, W4
         MOV [W8], [W8+W3]
         MAC W4*W5, B, [W8]-=2, W4, [W10]-=2, W5
+        loop:
         MOV [W8], [W8+W3]
-        SUB #4  , W1
-        BRA NZ,loop
         
     /* Load the most fresh data in the front of the buffer. After that this will be multiplied too. */
     MOV (&RawData), W3
