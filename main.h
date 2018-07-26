@@ -1,5 +1,6 @@
 #include <33EP256MU806.h>
 #device ICSP=1
+#device *=16
 //#use delay(clock=140000000,crystal=16000000,USB_FULL,AUX:clock=48000000)
 #use delay(clock=140MHz,crystal=16MHz, USB_FULL, AUX:clock=48MHz/*,crystal=16MHz*/)
 
@@ -8,6 +9,7 @@
 #FUSES NOBROWNOUT               //No brownout reset
 #FUSES NOJTAG                   //JTAG disabled
 #FUSES ICSP1
+#FUSES NODEBUG
 
 #define PIC_16BIT
 #include <MyTypes.h>
@@ -38,4 +40,5 @@
 #pin_select SDO1=SDO
 #use SPI(MASTER,MODE=3, BITS=16, BAUD=3500000,SPI1, FORCE_HW, XFER16,STREAM=ADAS1)
 
-#define SIMULATOR
+//#define SIMULATOR
+//#define ALL_CHANNEL

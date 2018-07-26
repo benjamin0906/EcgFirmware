@@ -1,0 +1,321 @@
+W0      @SCRATCH
+W0L     _RETURN_
+W0 -W1  @READ_ROM_MEMORY.P1
+W0 -W1  @DIV3232B.P2
+W0 -W1  @SPI_XFERM16_1.P3
+W0      @delay_ms1.P4
+W0      @delay_us1.P5
+W0 -W1  @MULS3232.P6
+W1      @SCRATCH
+W1      @READ_PACKED_MEMORY.P1
+W1      @WRITE_PACKED_MEMORY.P2
+W2 -W3  @MULS3232.P1
+W2      @SPI_XFERM16_1.P2
+W2      @READ_PACKED_MEMORY.P3
+W2      @WRITE_PACKED_MEMORY.P4
+W2      @READ_ROM_MEMORY.P5
+W2 -W3  @DIV3232B.P6
+W3      @READ_ROM_MEMORY.P1
+W3      @READ_PACKED_MEMORY.P2
+W3      @WRITE_PACKED_MEMORY.P3
+488     UOTGIR
+488.4   UOTGIR_ACTV
+48A     UOTGIE
+48A.4   UOTGIE_ACTV
+48E     UOTGCON
+48E.6   UOTGCON_DPMULUP
+48E.7   UOTGCON_DPPULUP
+490.0   UPWRC_USBPWR
+490     UPWRC
+490.1   UPWRC_SUSPND
+4C0.0   UIR_URST
+4C0     UIR
+4C0.1   UIR_UERR
+4C0.2   UIR_SOF
+4C0.3   UIR_TRN
+4C0.4   UIR_IDLE
+4C0.7   UIR_STALL
+4C2     UIE
+4C2.0   UIE_URST
+4C2.1   UIE_UERR
+4C2.2   UIE_SOF
+4C2.3   UIE_TRN
+4C2.4   UIE_IDLE
+4C2.7   UIE_STALL
+4C4     UEIR
+4C6     UEIE
+4C8     USTAT
+4CA.0   UCON_USBEN
+4CA     UCON
+4CA.1   UCON_PPBRST
+4CA.2   UCON_RESUME
+4CA.5   UCON_PKTDIS
+4CA.6   UCON_SE0
+4CC     UADDR
+4CE     UBDTP1
+4D0     UFRML
+4D2     UFRMH
+4D8     UBDTP2
+4DA     UBDTP3
+4DC     UCFG1
+4DE     UCFG2
+4E0-4FF UEP_SFR
+82A.6   USBIE
+A85.0   C1OUT
+A85.1   C1ENV
+A8D.0   C2OUT
+A8D.1   C2ENV
+A95.0   C3OUT
+A95.1   C3ENV
+1000-1007 USB_stack_status
+1008-100A usb_cdc_get_buffer_status
+100B    usb_state
+100C-1117 g_USBDataBuffer
+1118    __setup_0_tx_size
+1119    USB_address_pending
+111A-111B usb_getdesc_ptr
+111C-111D usb_getdesc_len
+111E-111F USB_Interface
+1120-1126 usb_cdc_line_coding
+1127    usb_cdc_put_buffer_nextin
+1128-1129 usb_cdc_break
+112A-1168 usb_cdc_put_buffer
+1169.0  usb_cdc_got_set_line_coding
+116A    usb_cdc_carrier
+116B    __usb_cdc_state
+116C-116D strtok.save
+116E    UsbState
+1170-11AE UsbInputBuffer
+11B0-11B1 BufferReadPosition
+11B2-11B3 BufferIterator
+11B4-11B5 BufferElementAmount
+11B6-11B7 SavedBufferElementAmount
+11B8-11B9 BufferReadCounter
+11BA-11BD TracerVariable
+11BE-11C1 globalvar
+1200-125F g_UsbBdt
+1260-1A23 FilterBufferCh11
+1A24-21E7 FilterBufferCh12
+21E8-41EB Message
+41EC-41ED MAIN.looper
+41EE-41EF MAIN.period
+41F0-41F1 MAIN.sample
+41F2-41F5 MAIN.size
+41F6-41F9 ruBufferTester.looper
+41F6-41F7 ruAdasHandler.looper
+41F8-41FB ruAdasHandler.Temporary
+41FA-41FD ruBufferTester.looper2
+4200-4203 FirWeighter.RawData
+4204-4207 FirWeighter.ret
+4206-4209 ChangeEndiannes32Bit.data
+4208-4209 FirWeighter.address
+420C    usb_isr.TRNAttempts
+420E    usb_isr_tok_dne.en
+420E-420F usb_token_reset.i
+420E-420F usb_clear_isr_reg.sfr
+420E-4211 usb_init_ep0_setup.newBD
+420F.0  usb_isr_tok_dne.tgl
+4210-4213 usb_isr_tok_dne.stat
+4212-4215 usb_init_ep0_setup.bdPtr
+4214-4215 usb_isr_tok_dne.pidKey
+4216    usb_isr_tkn_setup_StandardInterface.curr_config
+4216    usb_set_configured.config
+4216    usb_isr_tok_in_dne.endpoint
+4216    usb_isr_tok_out_dne.endpoint
+4216-4217 usb_isr_tkn_cdc.wLen
+4216-4217 usb_clear_isr_flag.sfr
+4216    usb_endpoint_stalled.endpoint
+4216    usb_unstall_ep.endpoint
+4216    usb_Get_Descriptor.i
+4216    usb_stall_ep.endpoint
+4217.0  usb_stall_ep.direction
+4217    usb_set_configured.en
+4217.0  usb_unstall_ep.direction
+4217.0  usb_endpoint_stalled.direction
+4218    usb_clear_isr_flag.bit
+4218    usb_rx_packet_size.endpoint
+4218-421B usb_set_configured.addy
+4218    usb_set_address.address
+4218    usb_copy_desc_seg_to_ep.c
+4218    usb_flush_out.endpoint
+4218-421B usb_unstall_ep.newBD
+4218-421B usb_endpoint_stalled.bd
+4218-421B usb_stall_ep.newBD
+4219    usb_flush_out.tgl
+421A    usb_put_packet.endpoint
+421A-421D usb_rx_packet_size.stat
+421A-421B usb_copy_desc_seg_to_ep.i
+421A-421D usb_flush_out.newBD
+421B    usb_put_packet.tgl
+421C-421D usb_set_configured.new_uep
+421C    usb_request_send_response.len
+421C-421D usb_put_packet.ptr
+421E-4221 usb_flush_out.oldBD
+421E-421F usb_put_packet.len
+421E-421F usb_set_configured.len
+4220-4223 usb_set_configured.newBD
+4220-4223 usb_put_packet.bdPtr
+4224    usb_disable_endpoints.i
+4224    UsbEpBdXSetPtr.ep
+4225    UsbEpBdXSetPtr.dir
+4226-4227 UsbEpBdXSetPtr.pSrc
+4226    UsbEpBdXGetPtr.ep
+4226    usb_disable_endpoint.en
+4226    usb_flush_in.endpoint
+4227    usb_flush_in.tgl
+4227    UsbEpBdXGetPtr.dir
+4228-4229 UsbEpBdXGetPtr.pDst
+4228-4229 usb_flush_in.len
+4228-4229 UsbEpBdXSetPtr.pDst
+4228-422B usb_disable_endpoint.stat
+422A-422B UsbEpBdXGetPtr.pSrc
+422A-422D usb_flush_in.newBD
+422C    usb_endpoint_is_valid.endpoint
+422C    UsbEpBdXGetPtrPtr.ep
+422D    UsbEpBdXGetPtrPtr.dir
+422D.0  usb_endpoint_is_valid.direction
+422E-4231 usb_flush_in.oldBD
+422E-422F UsbEpBdXGetPtrPtr.ptr
+4234    usb_tbe.en
+4234    UsbEpBdXSetSt.ep
+4235    UsbEpBdXSetSt.dir
+4236-4237 UsbEpBdXSetSt.pSrc
+4236-4239 usb_tbe.stat
+4238-4239 UsbEpBdXSetSt.pDst
+423A    UsbEpBdXGetSt.ep
+423B    UsbEpBdXGetSt.dir
+423C-423D UsbEpBdXGetSt.pDst
+423E-423F UsbEpBdXGetSt.pSrc
+4240    UsbEpBdXGetStPtr.ep
+4241    UsbEpBdXGetStPtr.dir
+4242-4243 UsbEpBdXGetStPtr.ptr
+5000-53E1 Weight
+6F80-6FFF Stack
+
+ROM Allocation:
+000200  usb_ep_tx_type.call
+00020C  usb_ep_tx_type.data
+00021C  usb_ep_rx_type.call
+000228  usb_ep_rx_type.data
+000238  usb_ep_tx_size.call
+000242  usb_ep_tx_size.data
+000262  usb_ep_rx_size.call
+00026C  usb_ep_rx_size.data
+00028C  USB_CONFIG_DESC.call
+0002A8  USB_CONFIG_DESC.data
+0002D6  USB_NUM_INTERFACES.call
+0002E2  USB_NUM_INTERFACES.data
+0002E4  USB_CLASS_DESCRIPTORS.call
+0002F0  USB_CLASS_DESCRIPTORS.data
+0002F8  USB_DEVICE_DESC.call
+000304  USB_DEVICE_DESC.data
+000316  USB_STRING_DESC.call
+000332  USB_STRING_DESC.data
+000350  usb_clear_isr_flag
+000362  usb_isr_activity
+000384  UsbEpBdXGetStPtr
+0003CC  UsbEpBdXGetPtrPtr
+0003F2  UsbEpBdXSetPtr
+000416  UsbEpBdXSetSt
+000448  usb_init_ep0_setup
+0004D2  usb_isr_stall
+0004EC  usb_clear_isr_reg
+0004FA  usb_isr_uerr
+000512  usb_cdc_init
+000550  usb_token_reset
+000580  usb_endpoint_is_valid
+0005EC  usb_disable_endpoint
+00064A  usb_disable_endpoints
+000674  usb_clear_trn
+000688  usb_isr_rst
+0006C6  usb_isr_uidle
+0006CC  usb_isr_sof
+0006DC  UsbEpBdXGetSt
+00070E  usb_request_send_response
+000714  usb_request_stall
+000718  usb_copy_desc_seg_to_ep
+0007AA  usb_Get_Descriptor
+00086C  usb_set_configured
+0009F8  usb_isr_tkn_setup_StandardDevice
+000AD0  usb_isr_tkn_setup_StandardInterface
+000B72  usb_unstall_ep
+000BF8  usb_stall_ep
+000C56  usb_endpoint_stalled
+000CB4  usb_isr_tkn_setup_StandardEndpoint
+000D3A  usb_request_get_data
+000D40  usb_isr_tkn_cdc
+000DEA  usb_isr_tok_setup_dne
+000E2E  usb_flush_out
+000EFE  usb_tbe
+000F3C  usb_flush_in
+001012  usb_isr_tok_out_cdc_control_dne
+001050  usb_rx_packet_size
+00106C  usb_cdc_get_discard
+001084  usb_isr_tok_out_cdc_data_dne
+00109E  usb_isr_tok_out_dne
+0010BC  usb_set_address
+0010D8  usb_finish_set_address
+0010EA  UsbEpBdXGetPtr
+00110E  usb_put_packet
+00116C  usb_cdc_flush_tx_buffer
+00119E  usb_isr_tok_in_cdc_data_dne
+0011A4  usb_isr_tok_in_dne
+0011D6  usb_isr_tok_dne
+0013D6  usb_isr
+00147E  ChangeEndiannes32Bit
+001492  ruBufferTester
+001600  FirWeighter
+0016D0  ruAdasHandler
+0017BA  @cinit1
+0017BA  MAIN
+001840  @cinit2
+0B3E  loop
+
+Project Directory:
+    C:\Users\Benjamin\MPLABXProjects\EcgFirmware.X\
+
+Project Files:
+    main.c                                                  [26-júl.-18 20:25  CRC=91017638]
+    main.h                                                  [26-júl.-18 20:01  CRC=1D14CF7E]
+    ..\..\..\..\Program Files (x86)\PICC_full\Devices\33EP256MU806.h [21-júl.-17 13:47  CRC=E277A9DC]
+    MyTypes.h                                               [01-júl.-18 17:20  CRC=8FDDCD78]
+    ..\..\..\..\Program Files (x86)\PICC_full\Drivers\usb_cdc.h [05-jan.-17 16:39  CRC=A6F48BFB]
+    ..\..\..\..\Program Files (x86)\PICC_full\Drivers\pic24_usb.h [19-szept.-12 11:38  CRC=6919B178]
+    ..\..\..\..\Program Files (x86)\PICC_full\Drivers\usb_hw_layer.h [31-aug.-10 16:26  CRC=8105D92F]
+    ..\..\..\..\Program Files (x86)\PICC_full\Drivers\usb_desc_cdc.h [12-márc.-15 16:20  CRC=BE2FB6B6]
+    ..\..\..\..\Program Files (x86)\PICC_full\Drivers\usb.h [26-febr.-13 16:40  CRC=0402FA1E]
+    ..\..\..\..\Program Files (x86)\PICC_full\Drivers\usb.c [20-márc.-15 11:02  CRC=23D6CECB]
+    ..\..\..\..\Program Files (x86)\PICC_full\Drivers\pic24_usb.c [07-júl.-16 17:30  CRC=F1065C4A]
+    ..\..\..\..\Program Files (x86)\PICC_full\Drivers\stdint.h [06-máj.-16 11:24  CRC=FE3369EA]
+    ..\..\..\..\Program Files (x86)\PICC_full\Drivers\string.h [26-márc.-15 13:34  CRC=C4814297]
+    ..\..\..\..\Program Files (x86)\PICC_full\Drivers\stddef.h [05-szept.-14 12:47  CRC=897CEC6C]
+    ..\..\..\..\Program Files (x86)\PICC_full\Drivers\ctype.h [03-jan.-08 15:55  CRC=2D1F019F]
+
+Source signature=2EFF4BC0
+Program memory checksum=0000
+Program memory CRC=0000
+Hex file CRC=980D
+
+Units:
+    main (main)
+
+Compiler Settings:
+    Processor:      DSPIC33EP256MU806
+    Pointer Size:   16
+    ADC Range:      0-65535
+    Opt Level:      9
+    Short,Int,Long: SIGNED: 8,16,32
+    Float,Double:   32,64
+    Compile Mode:       CCS5
+
+Output Files:
+    XREF file:   main.xsym
+    Errors:      main.err
+    Ext Symbols: main.esym
+    INHX8:       main.hex
+    Symbols:     main.sym
+    List:        main.lst
+    Debug/COFF:  main.cof
+    Project:     main.ccspjt
+    Call Tree:   main.tre
+    Statistics:  main.STA

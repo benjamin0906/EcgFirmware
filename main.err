@@ -1,0 +1,10 @@
+>>> Warning 225 "C:\Users\Benjamin\MPLABXProjects\EcgFirmware.X\MyTypes.h" Line 11(13,18): Duplicate #define
+>>> Warning 225 "C:\Users\Benjamin\MPLABXProjects\EcgFirmware.X\MyTypes.h" Line 12(14,18): Duplicate #define
+>>> Warning 203 "C:\Program Files (x86)\PICC_full\Drivers\pic24_usb.c" Line 704(1,1): Condition always TRUE
+>>> Warning 203 "main.c" Line 927(1,1): Condition always TRUE
+>>> Warning 202 "main.c" Line 686(8,22): Variable never used:   TracerVariable
+>>> Warning 202 "main.c" Line 912(12,18): Variable never used:   period
+>>> Warning 202 "main.c" Line 913(12,18): Variable never used:   sample
+      Memory usage:   ROM=4%      RAM=48% - 49%
+      0 Errors,  7 Warnings.
+Build Successful.

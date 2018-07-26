@@ -6,7 +6,7 @@
  */
 #include <main.h>
 #ifdef SIMULATOR
-#include <math.h>
+//#include <math.h>
 #endif
 
 uint8 UsbState=0;
@@ -17,8 +17,17 @@ uint16 BufferElementAmount=0;
 uint16 SavedBufferElementAmount=0;
 uint16 BufferReadCounter=0;
 
-sint32 BufferForWeight[FILTER_ORDER];
-#banky //This preprocessor instruction ensure that the following data will be pressed into the Y Ram space.
+#bankx
+sint32 FilterBufferCh11[FILTER_ORDER];
+#bankx
+sint32 FilterBufferCh12[FILTER_ORDER];
+#bankx
+sint32 FilterBufferCh13[FILTER_ORDER];
+#bankx
+sint32 FilterBufferCh14[FILTER_ORDER];
+#bankx
+sint32 FilterBufferCh15[FILTER_ORDER];
+//#BANK_DMA //This preprocessor instruction ensure that the following data will be pressed into the Y Ram space.
 uint16 Weight[FILTER_ORDER]=
 {
 0xFFFB,
@@ -519,7 +528,8 @@ uint16 Weight[FILTER_ORDER]=
 0xFFFB,
 0xFFFB
 };
-struct
+#locate Weight=0x5000
+typedef struct
 {
     struct
     {
@@ -531,10 +541,11 @@ struct
     union
     {
         uint8 Bytes[BUFFER_SIZE];
-        uint32 Data[BUFFER_SIZE/4];
+        uint32 Data[(BUFFER_SIZE)/4];
     } Data;
-}Message;
-
+}dtMessagePacket;
+dtMessagePacket Message;
+#locate Message=0x5500
 /* This function changes the endianness in double-words. */
 uint32 ChangeEndiannes32Bit(uint32 Data)
 {
@@ -682,7 +693,8 @@ void AdasInit()
 uint32 TracerVariable;
 uint32 FirWeighter(uint32 RawData)
 {
-    uint32 ret=RawData;
+    uint32 ret;//=FirFilterBuffer[248];
+    uint16 Address;
 #asm
     /* Save the working registers in to the stack. */
     PUSH W1;
@@ -691,9 +703,12 @@ uint32 FirWeighter(uint32 RawData)
     PUSH W5;
     PUSH W8;
     PUSH W10;
+    PUSH W2
+    PUSH W0
     
     /*This part of code cuts the address from the data and shifts it right with 5.*/
     MOV RawData+2, W1
+    MOV W1,(Address)
     MOV #0x00ff, W3
     AND W1,W3,W1
     AND W1,#0x1F,W3
@@ -706,13 +721,31 @@ uint32 FirWeighter(uint32 RawData)
     IOR W1,W3,W1
     MOV W1, RawData
     MOV W1, ret//TODO:
+    MOV #0xff00, W0
+    AND Address
+    
     /* Set up the size of the filter order to loop */
     MOV ASM_FILTER_ORDER,W1
     DEC W1,W1
     SL W1,#2,W1
     
     /* Set W8 to point to the last word of the buffer array. */
-    MOV (&BufferForWeight), W8  //W8 contains the BaseAddress
+    MOV Address, W2
+    MOV #0x1100, W3
+    MOV #0x1200,W4
+    MOV #0x1300,W5
+    MOV #0x1400,W10
+    MOV #0x1500,W0
+    CPSNE W2,W3
+    MOV (&FilterBufferCh11), W8  //W8 contains the BaseAddress
+    CPSNE W2,W4
+    MOV (&FilterBufferCh12), W8  //W8 contains the BaseAddress
+    CPSNE W2,W5
+    MOV (&FilterBufferCh13), W8  //W8 contains the BaseAddress
+    CPSNE W2,W10
+    MOV (&FilterBufferCh14), W8  //W8 contains the BaseAddress
+    CPSNE W2,W0
+    MOV (&FilterBufferCh15), W8  //W8 contains the BaseAddress
     ADD W8,W1,W8
     ADD W8, #2,W8
 
@@ -761,6 +794,8 @@ uint32 FirWeighter(uint32 RawData)
     SAC A,#0,[--W3]
     
     /* Load the working registers back from the stack. */
+    POP W0
+    POP W2
     POP W10
     POP W8
     POP W5
@@ -768,8 +803,14 @@ uint32 FirWeighter(uint32 RawData)
     POP W3
     POP W1
 #endasm
-    RawData=0x11000000|(0x00ffffff&(ret-RawData));
-    return RawData;
+    ret=(ret-RawData);
+#asm
+    MOV #0x00ff, W0
+    AND ret+2
+    MOV Address,W0
+    IOR ret+2
+#endasm
+    return ret;
 }
 uint32 globalvar=0;
 void ruAdasHandler(void)
@@ -780,33 +821,38 @@ void ruAdasHandler(void)
     {
         //output_toggle(PIN_B0);
         uint16 looper;
-        uint32 Temporary=0;
+        uint32 Temporary=0x11000000;
         for(looper = 0; looper<6; looper++, BufferIterator++)
         {
 #ifndef SIMULATOR
             Temporary = AdasSpiReadWrite(0x00000000);
-#else
-            Temporary=0x11000000;
 #endif
-            if(((Temporary&0xFF000000)>>24) != 0x11)
+            switch((uint16)(Temporary>>24))
             {
-                Message.Data.Data[BufferIterator] = ChangeEndiannes32Bit(Temporary);
+                case 0x11:
+                    Message.Data.Data[BufferIterator] = ChangeEndiannes32Bit(FirWeighter(Temporary));
+                    //Message.Data.Data[BufferIterator] = ChangeEndiannes32Bit((Temporary));
+                    break;
+                case 0x12:
+                    Message.Data.Data[BufferIterator] = ChangeEndiannes32Bit(FirWeighter(Temporary));
+                    //Message.Data.Data[BufferIterator] = ChangeEndiannes32Bit((Temporary));
+                    break;
+                case 0x13:
+                    Message.Data.Data[BufferIterator] = ChangeEndiannes32Bit(FirWeighter(Temporary));
+                    //Message.Data.Data[BufferIterator] = ChangeEndiannes32Bit((Temporary));
+                    break;
+                case 0x14:
+                    Message.Data.Data[BufferIterator] = ChangeEndiannes32Bit(FirWeighter(Temporary));
+                    //Message.Data.Data[BufferIterator] = ChangeEndiannes32Bit((Temporary));
+                    break;
+                case 0x15:
+                    Message.Data.Data[BufferIterator] = ChangeEndiannes32Bit(FirWeighter(Temporary));
+                    //Message.Data.Data[BufferIterator] = ChangeEndiannes32Bit((Temporary));
+                    break;
+                default:
+                    Message.Data.Data[BufferIterator] = ChangeEndiannes32Bit((Temporary));
+                    break;
             }
-            else
-            {
-                output_high(PIN_B0);
-#ifdef SIMULATOR
-                Temporary = BufferForWeight[globalvar];
-                if(globalvar != 200) globalvar++;
-                else globalvar=0;
-                Message.Data.Data[BufferIterator] = ChangeEndiannes32Bit(FirWeighter(BufferForWeight[globalvar]));
-#else
-                Message.Data.Data[BufferIterator] = ChangeEndiannes32Bit(FirWeighter(Temporary));
-#endif
-                output_low(PIN_B0);
-            }
-            //Message.Data.Data[BufferIterator] = ChangeEndiannes32Bit(AdasSpiReadWrite(0x00000000));
-            
             if(BufferIterator == ((BUFFER_SIZE/4)-1))
             {
                 BufferIterator = -1;
@@ -854,6 +900,7 @@ void ruBufferTester(void)
 
 int main() 
 {
+//write_extended_ram(1,0x100,&Weight,8);
 #asm
     BCLR 0x44, #5
     BSET 0x44, #0
@@ -873,8 +920,8 @@ int main()
     uint16 sample = FILTER_ORDER;
     for(looper=0;looper<FILTER_ORDER;looper++)
     {
-        //BufferForWeight[looper]=16621336+5000+5000*sin(2*PI/period*looper);
-        BufferForWeight[looper]=0x07ffff;
+        //BufferForWeight[looper]=1000+1000*sin(2*PI/period*looper);
+        FilterBufferCh11[looper]=0x07ffff;
         //Weight[looper]=0x7fff;
     }
     unsigned long Size=8192;
